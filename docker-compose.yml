@@ -1,0 +1,38 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - KEY=jhbjsagasdlkzxmdch892374anmsdad
+      - APP_PORT=3000
+      - DB_HOST=mysql
+      - DB_USER=admin
+      - DB_PASS=admin
+      - DB_DATABASE=notes
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: temp123
+      MYSQL_DATABASE: notes
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    volumes:
+      - mysql_data:/var/lib/mysql
+    hostname: mysql
+    restart: always
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  mysql_data:
